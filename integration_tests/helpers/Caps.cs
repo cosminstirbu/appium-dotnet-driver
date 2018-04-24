@@ -34,6 +34,15 @@ namespace Appium.Integration.Tests.Helpers
             return capabilities;
         }
 
+        public static DesiredCapabilities getIos113Caps(string app)
+        {
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.SetCapability(MobileCapabilityType.PlatformVersion, "11.3");
+            capabilities.SetCapability(MobileCapabilityType.DeviceName, "iPhone Simulator");
+            capabilities.SetCapability(MobileCapabilityType.App, app);
+            return capabilities;
+        }
+
         public static DesiredCapabilities getAndroid501Caps(string app)
         {
             DesiredCapabilities capabilities = new DesiredCapabilities();

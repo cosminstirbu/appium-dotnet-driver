@@ -115,6 +115,7 @@
     <Compile Include="Windows\WindowsClickElementTest.cs" />
     <Compile Include="Windows\WindowsMultiSelectControlTest.cs" />
     <Compile Include="iOS\iOSSearchingClassChainTest.cs" />
+    <Compile Include="iOS\iOSMonoDebugTimeoutTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
