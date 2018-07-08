@@ -151,6 +151,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Appium\PageObjects\Attributes\FindsByWindowsAutomationAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="appium-dotnet-driver.licenseheader" />

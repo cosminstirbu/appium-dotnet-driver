@@ -23,6 +23,7 @@ using OpenQA.Selenium.Support.PageObjects;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using OpenQA.Selenium.Appium.Windows;
 
 namespace OpenQA.Selenium.Appium.PageObjects
 {
@@ -47,6 +48,7 @@ namespace OpenQA.Selenium.Appium.PageObjects
                     listAvailableElementTypes.Add(typeof(AppiumWebElement));
                     listAvailableElementTypes.Add(typeof(AndroidElement));
                     listAvailableElementTypes.Add(typeof(IOSElement));
+                    listAvailableElementTypes.Add(typeof(WindowsElement));
                 }
 
                 return listAvailableElementTypes;

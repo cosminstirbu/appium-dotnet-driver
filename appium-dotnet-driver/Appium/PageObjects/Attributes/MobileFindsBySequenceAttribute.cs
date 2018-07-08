@@ -63,5 +63,12 @@ namespace OpenQA.Selenium.Appium.PageObjects.Attributes
         /// </summary>
         [DefaultValue(false)]
         public bool Selendroid { get; set; }
+
+        /// <summary>
+        /// If this property is "true" then each <see cref="FindsByWindowsAutomationAttribute"/>  on the field or
+        /// property will be used in sequence to find the appropriate element.
+        /// </summary>
+        [DefaultValue(false)]
+        public bool Windows { get; set; }
     }
 }
