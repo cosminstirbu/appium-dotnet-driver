@@ -12,6 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using OpenQA.Selenium.Appium.Enums;
 using OpenQA.Selenium.Appium.Interfaces;
@@ -105,6 +106,31 @@ namespace OpenQA.Selenium.Appium.Windows
             : base(service, SetPlatformToCapabilities(desiredCapabilities, Platform), commandTimeout)
         {
         }
+
+        #region Contex
+
+        public override string Context
+        {
+            get
+            {
+                return "NATIVE_APP";
+            }
+            set
+            {
+                throw new InvalidOperationException("Setting the Context on a Windows driver is not implemented yet");
+            }
+        }
+
+        public override ReadOnlyCollection<string> Contexts
+        {
+            get
+            {
+                var contexts = new List<string> { Context };
+                return contexts.AsReadOnly();
+            }
+        }
+
+        #endregion Context
 
         #region IFindByWindowsUIAutomation Members
 
