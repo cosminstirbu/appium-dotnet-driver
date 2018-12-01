@@ -16,8 +16,7 @@ namespace Appium.Net.Integration.Tests.helpers
                 if (_localService == null)
                 {
                     var builder =
-                        new AppiumServiceBuilder()
-                            .WithLogFile(new FileInfo(Path.GetTempPath() + "Log.txt"));
+                        new AppiumServiceBuilder().WithOutputRedirectToConsole(true);
                    
                     _localService = builder.Build();
                 }
