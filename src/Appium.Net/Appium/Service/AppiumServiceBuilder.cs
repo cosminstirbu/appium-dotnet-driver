@@ -40,7 +40,7 @@ namespace OpenQA.Selenium.Appium.Service
         private FileInfo NodeJS;
         private IDictionary<string, string> EnvironmentForAProcess;
         private string PathToLogFile;
-
+        private bool ShouldRedirectOutputToConsole;
 
         private static Process StartSearchingProcess(string file, string arguments)
         {
@@ -459,6 +459,19 @@ namespace OpenQA.Selenium.Appium.Service
             return this;
         }
 
+        /// <summary>
+        /// Configures the process that invokes the appium server to capture its console output (logs) and redirect it to System.Console.
+        /// Useful for debugging.
+        /// </summary>
+        /// <param name="shouldRedirect">False by default</param>
+        /// <returns>self-reference.</returns>
+        public AppiumServiceBuilder WithOutputRedirectToConsole(bool shouldRedirect)
+        {
+            ShouldRedirectOutputToConsole = shouldRedirect;
+
+            return this;
+        }
+
         private string Args
         {
             get
@@ -503,7 +516,7 @@ namespace OpenQA.Selenium.Appium.Service
             {
                 NodeJS = DefaultExecutable;
             }
-            return new AppiumLocalService(NodeJS, Args, IPAddress.Parse(this.IpAddress), this.Port, StartUpTimeout);
+            return new AppiumLocalService(NodeJS, Args, IPAddress.Parse(this.IpAddress), this.Port, StartUpTimeout, ShouldRedirectOutputToConsole);
         }
     }
 }

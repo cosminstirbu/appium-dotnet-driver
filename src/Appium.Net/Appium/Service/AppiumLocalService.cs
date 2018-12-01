@@ -29,6 +29,7 @@ namespace OpenQA.Selenium.Appium.Service
         private readonly IPAddress IP;
         private readonly int Port;
         private readonly TimeSpan InitializationTimeout;
+        private readonly bool ShouldRedirectOutputToConsole;
         private Process Service;
 
         /// <summary>
@@ -37,14 +38,20 @@ namespace OpenQA.Selenium.Appium.Service
         /// <returns>An instance of AppiumLocalService without special settings</returns>
         public static AppiumLocalService BuildDefaultService() => new AppiumServiceBuilder().Build();
 
-        internal AppiumLocalService(FileInfo nodeJS, string arguments, IPAddress ip, int port,
-            TimeSpan initializationTimeout)
+        internal AppiumLocalService(
+            FileInfo nodeJS, 
+            string arguments, 
+            IPAddress ip, 
+            int port,
+            TimeSpan initializationTimeout,
+            bool shouldRedirectOutputToConsole = false)
         {
             NodeJS = nodeJS;
             IP = ip;
             Arguments = arguments;
             Port = port;
             InitializationTimeout = initializationTimeout;
+            ShouldRedirectOutputToConsole = shouldRedirectOutputToConsole;
         }
 
         /// <summary>
@@ -72,7 +79,16 @@ namespace OpenQA.Selenium.Appium.Service
             Service.StartInfo.UseShellExecute = false;
             Service.StartInfo.CreateNoWindow = true;
 
-            bool isLaunced = false;
+            if (ShouldRedirectOutputToConsole)
+            {
+                Service.StartInfo.RedirectStandardOutput = true;
+                Service.StartInfo.RedirectStandardError = true;
+
+                Service.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
+                Service.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
+            }
+
+            bool isLaunched = false;
             string msgTxt =
                 $"The local appium server has not been started. The given Node.js executable: {NodeJS.FullName} Arguments: {Arguments}. " +
                 "\n";
@@ -80,6 +96,12 @@ namespace OpenQA.Selenium.Appium.Service
             try
             {
                 Service.Start();
+
+                if (ShouldRedirectOutputToConsole)
+                {
+                    Service.BeginOutputReadLine();
+                    Service.BeginErrorReadLine();
+                }
             }
             catch (Exception e)
             {
@@ -87,14 +109,19 @@ namespace OpenQA.Selenium.Appium.Service
                 throw new AppiumServerHasNotBeenStartedLocallyException(msgTxt, e);
             }
 
-            isLaunced = Ping(InitializationTimeout);
-            if (!isLaunced)
+            isLaunched = Ping(InitializationTimeout);
+            if (!isLaunched)
             {
                 DestroyProcess();
                 throw new AppiumServerHasNotBeenStartedLocallyException(
                     msgTxt +
                     $"Time {InitializationTimeout.TotalMilliseconds} ms for the service starting has been expired!");
             }
+        }
+
+        private void OutputHandler(object sender, DataReceivedEventArgs e)
+        {
+            Console.WriteLine(e.Data);
         }
 
         private void DestroyProcess()
