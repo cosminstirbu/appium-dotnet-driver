@@ -17,6 +17,7 @@ using NUnit.Framework;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
+using System;
 
 namespace Appium.Net.Integration.Tests.Windows
 {
@@ -40,7 +41,7 @@ namespace Appium.Net.Integration.Tests.Windows
 
             _calculatorSession.FindElementByName("Clear").Click();
             _calculatorSession.FindElementByName("Seven").Click();
-            CalculatorResult = _calculatorSession.FindElementByName("Display is  7 ") as RemoteWebElement;
+            CalculatorResult = _calculatorSession.FindElementByName("Display is 7") as RemoteWebElement;
             Assert.IsNotNull(CalculatorResult);
         }
 
@@ -57,17 +58,23 @@ namespace Appium.Net.Integration.Tests.Windows
         public void SetUp()
         {
             _calculatorSession.FindElementByName("Clear").Click();
-            Assert.AreEqual("Display is  0 ", CalculatorResult.Text);
+            Assert.AreEqual("Display is 0", CalculatorResult.Text);
         }
 
         [Test]
         public void Addition()
         {
             _calculatorSession.FindElementByName("One").Click();
+
+            TestContext.Out.WriteLine("Sample Output 1");
+
             _calculatorSession.FindElementByName("Plus").Click();
             _calculatorSession.FindElementByName("Seven").Click();
             _calculatorSession.FindElementByName("Equals").Click();
-            Assert.AreEqual("Display is  8 ", CalculatorResult.Text);
+
+            TestContext.Out.WriteLine("Sample Output 2");
+
+            Assert.AreEqual("Display is 8", CalculatorResult.Text);
         }
 
         [Test]

@@ -19,6 +19,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Net;
 using System.Runtime.CompilerServices;
+using NUnit.Framework;
 
 namespace OpenQA.Selenium.Appium.Service
 {
@@ -121,7 +122,7 @@ namespace OpenQA.Selenium.Appium.Service
 
         private void OutputHandler(object sender, DataReceivedEventArgs e)
         {
-            Console.WriteLine(e.Data);
+            TestContext.Out.WriteLine(e.Data);
         }
 
         private void DestroyProcess()
